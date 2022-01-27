@@ -1,10 +1,39 @@
 <template>
   <div id="nav">
+    <p>主应用的数据: {{mainAppState ? mainAppState.name : '无'}}</p>
+
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div>
   <router-view/>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      mainAppState: window.microApp ? window.microApp.getData() : { name: '无' },
+    }
+  },
+  mounted() {
+    if (window.microApp) {
+      window.microApp.addDataListener(this.dataListener)
+    }
+  },
+  methods: {
+    dataListener(data) {
+      console.log('主应用的数据', data);
+      this.mainAppState = data;
+    }
+  },
+  unmounted() {
+    if (window.microApp) {
+      window.microApp.clearDataListener();
+    }
+  }
+}
+</script>
 
 <style>
 #app {
