@@ -2,8 +2,14 @@
   <div id="nav">
     <p>主应用的数据: {{mainAppState ? mainAppState.name : '无'}}</p>
 
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <button @click="sendToMain">vue3-app => 基座</button>
+
+    <hr>
+
+    <header>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </header>
   </div>
   <router-view/>
 </template>
@@ -25,6 +31,9 @@ export default {
     dataListener(data) {
       console.log('主应用的数据', data);
       this.mainAppState = data;
+    },
+    sendToMain() {
+      window.microApp.dispatch({msg: `我是 vue3-app 随机数 ${Math.random()}`})
     }
   },
   unmounted() {
